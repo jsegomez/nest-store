@@ -1,5 +1,5 @@
 import { ProductsService } from '../../services/products/products.service';
-import { Product } from '../../entities/product.interface';
+import { Product } from '../../entities/product.entity';
 import { NotFoundException } from '@nestjs/common';
 import {
   Controller,
@@ -15,13 +15,16 @@ import {
 
 import { ParseIntPipe } from '../../../Pipes/parse-int.pipe';
 import { CreateProductDto, UpdateProductDto } from '../../dtos/products.dto';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('products')
 @Controller('products')
 export class ProductsController {
   constructor(private productService: ProductsService) {}
 
   // Parametros en controlador
   @Get('all')
+  @ApiOperation({ summary: 'List of products' })
   getProducts(): Product[] {
     return this.productService.findAll();
   }
