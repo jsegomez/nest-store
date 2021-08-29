@@ -1,6 +1,4 @@
 import { ProductsService } from '../../services/products/products.service';
-import { Product } from '../../entities/product.entity';
-import { NotFoundException } from '@nestjs/common';
 import {
   Controller,
   Get,
@@ -11,49 +9,51 @@ import {
   Delete,
   HttpStatus,
   HttpCode,
+  Query,
 } from '@nestjs/common';
 
-import { ParseIntPipe } from '../../../Pipes/parse-int.pipe';
-import { CreateProductDto, UpdateProductDto } from '../../dtos/products.dto';
+import {
+  CreateProductDto,
+  UpdateProductDto,
+  FilterProductsDto,
+} from '../../dtos/products.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { MongoIdPipe } from '../../../Pipes/mongo-id/mongo-id.pipe';
+// import { ParseIntPipe } from '../../../Pipes/parse-int/parse-int.pipe';
 
 @ApiTags('products')
 @Controller('products')
 export class ProductsController {
   constructor(private productService: ProductsService) {}
 
-  // Parametros en controlador
+  //Parametros en controlador
   @Get('all')
   @ApiOperation({ summary: 'List of products' })
-  getProducts(): Product[] {
-    return this.productService.findAll();
+  getProducts(@Query() params?: FilterProductsDto) {
+    return this.productService.findAll(params);
   }
 
   @Get(':id')
-  findById(@Param('id', ParseIntPipe) id: number) {
+  findById(@Param('id', MongoIdPipe) id: string) {
     const product = this.productService.findOne(id);
-    if (!product) {
-      return new NotFoundException(`Producto con id ${id} no existe!..`);
-    }
-
     return product;
   }
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() payload: CreateProductDto) {
-    const product = this.productService.create(payload);
+  create(@Body() data: CreateProductDto) {
+    const product = this.productService.create(data);
     return product;
   }
 
   @Put(':id')
-  update(@Param('id') id: number, @Body() payload: UpdateProductDto) {
-    const product = this.productService.update(id, payload);
+  update(@Param('id', MongoIdPipe) id: string, @Body() data: UpdateProductDto) {
+    const product = this.productService.update(id, data);
     return product;
   }
 
   @Delete(':id')
-  delete(@Param('id') id: number) {
-    return { response: `Delete product id: ${id}` };
+  delete(@Param('id', MongoIdPipe) id: string) {
+    return this.productService.delete(id);
   }
 }

@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { User } from 'src/users/entities/user.entity';
 import { CreateUserDto } from '../../dtos/users.dto';
-import { Order } from '../../entities/order.entity';
 import { ProductsService } from '../../../products/services/products/products.service';
 import { ConfigService } from '@nestjs/config';
 
@@ -33,12 +32,12 @@ export class UsersService {
     return user;
   }
 
-  getOrdersByUser(id: number): Order {
-    const user = this.findOne(id);
-    return {
-      date: new Date(),
-      user: user,
-      products: this.productsService.findAll(),
-    };
-  }
+  // getOrdersByUser(id: number): Order {
+  //   const user = this.findOne(id);
+  //   return {
+  //     date: new Date(),
+  //     user: user,
+  //     products: this.productsService.findAll(),
+  //   };
+  // }
 }
