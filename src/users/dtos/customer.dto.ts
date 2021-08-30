@@ -1,12 +1,6 @@
 import { PartialType } from '@nestjs/swagger';
 import { CreateAddress } from './address.dto';
-import {
-  IsEmail,
-  IsNotEmpty,
-  IsPhoneNumber,
-  IsString,
-  ValidateNested,
-} from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString, ValidateNested } from 'class-validator';
 
 export class CreateCustomerDto {
   @IsString()
@@ -16,7 +10,6 @@ export class CreateCustomerDto {
   @IsString()
   readonly lastName: string;
 
-  @IsPhoneNumber()
   @IsNotEmpty()
   readonly phone: number;
 
