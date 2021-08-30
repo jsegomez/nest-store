@@ -4,7 +4,6 @@ import {
   IsEmail,
   IsNotEmpty,
   IsPhoneNumber,
-  IsPositive,
   IsString,
   ValidateNested,
 } from 'class-validator';
@@ -19,7 +18,6 @@ export class CreateCustomerDto {
 
   @IsPhoneNumber()
   @IsNotEmpty()
-  @IsPositive()
   readonly phone: number;
 
   @IsNotEmpty()
