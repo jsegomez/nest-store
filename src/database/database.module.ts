@@ -15,10 +15,10 @@ import config from '../config';
   imports: [
     MongooseModule.forRootAsync({
       useFactory: async (configService: ConfigType<typeof config>) => {
-        const { connection, user, password, port, host, dbName } =
+        const { connection, user, password, host, dbName } =
           configService.mongo;
         return {
-          uri: `${connection}://${user}:${password}@${host}:${port}`,
+          uri: `${connection}://${user}:${password}@${host}`,
           dbName,
         };
       },
