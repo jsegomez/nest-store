@@ -19,9 +19,8 @@ import {
 } from '../../dtos/products.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { MongoIdPipe } from '../../../Pipes/mongo-id/mongo-id.pipe';
-// import { ParseIntPipe } from '../../../Pipes/parse-int/parse-int.pipe';
 
-@ApiTags('products')
+@ApiTags('Products')
 @Controller('products')
 export class ProductsController {
   constructor(private productService: ProductsService) {}

@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
-// Modulo a utilizar
+// Modelo a utilizar
 import { Product } from 'src/products/entities/product.entity';
 
 // Modelos de apoyo
@@ -21,14 +21,21 @@ export class ProductsService {
   async findAll(params?: FilterProductsDto) {
     if (params) {
       const { limit, offset } = params;
-      return await this.productModel.find().skip(offset).limit(limit);
+      return await this.productModel
+        .find()
+        .skip(offset)
+        .limit(limit)
+        .populate('brand');
     }
 
-    return await this.productModel.find();
+    return await this.productModel.find().populate('brand').exec();
   }
 
   async findOne(id: string) {
-    const product = await this.productModel.findById(id);
+    const product = await this.productModel
+      .findById(id)
+      .populate('brand')
+      .exec();
     if (!product) {
       throw new NotFoundException(`Producto con id ${id} no fue encontrado`);
     }

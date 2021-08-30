@@ -7,7 +7,10 @@ import {
   IsString,
   IsUrl,
   Min,
+  ValidateNested,
+  IsMongoId,
 } from 'class-validator';
+import { CreateCategory } from './category.dto';
 
 export class CreateProductDto {
   @IsString()
@@ -31,6 +34,14 @@ export class CreateProductDto {
   @IsUrl()
   @IsNotEmpty()
   readonly image: string;
+
+  @IsNotEmpty()
+  @ValidateNested()
+  readonly category: CreateCategory;
+
+  @IsNotEmpty()
+  @IsMongoId()
+  readonly brand: string;
 }
 
 export class UpdateProductDto extends PartialType(CreateProductDto) {}

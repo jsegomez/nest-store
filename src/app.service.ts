@@ -1,14 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
-
-//database
-import { Db } from 'mongodb';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class AppService {
-  constructor(@Inject('MONGO') private database: Db) {}
-
-  getTask() {
-    const taskCollection = this.database.collection('task');
-    return taskCollection.find().toArray();
-  }
-}
+export class AppService {}
