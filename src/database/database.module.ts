@@ -5,7 +5,7 @@ import { ConfigType } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 
 // Base de datos
-import { MongoClient } from 'mongodb';
+// import { MongoClient } from 'mongodb';
 
 // Variables de entorno
 import config from '../config';
@@ -26,19 +26,19 @@ import config from '../config';
     }),
   ],
   providers: [
-    {
-      provide: 'MONGO',
-      useFactory: async (configService: ConfigType<typeof config>) => {
-        const { connection, user, password, port, host, dbName } =
-          configService.mongo;
-        const uri = `${connection}://${user}:${password}@${host}:${port}/?authSource=admin&readPreference=primary`;
-        const client = new MongoClient(uri);
-        await client.connect();
-        const database = client.db(dbName);
-        return database;
-      },
-      inject: [config.KEY],
-    },
+    // {
+    //   provide: 'MONGO',
+    //   useFactory: async (configService: ConfigType<typeof config>) => {
+    //     const { connection, user, password, port, host, dbName } =
+    //       configService.mongo;
+    //     const uri = `${connection}://${user}:${password}@${host}:${port}/?authSource=admin&readPreference=primary`;
+    //     const client = new MongoClient(uri);
+    //     await client.connect();
+    //     const database = client.db(dbName);
+    //     return database;
+    //   },
+    //   inject: [config.KEY],
+    // },
   ],
   exports: ['MONGO', MongooseModule],
 })
