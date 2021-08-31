@@ -1,5 +1,5 @@
-import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document, Types } from 'mongoose';
 
 @Schema()
 export class Customer extends Document {
@@ -15,14 +15,17 @@ export class Customer extends Document {
   @Prop({ required: true })
   phone: number;
 
-  @Prop(
-    raw({
-      department: { type: String },
-      city: { type: String },
-      street: { type: String },
-      number: { type: String },
-    }),
-  )
-  address: Record<string, any>;
+  @Prop({
+    type: [
+      {
+        department: { type: String },
+        city: { type: String },
+        street: { type: String },
+        number: { type: String },
+        title: { type: String },
+      },
+    ],
+  })
+  addresses: Types.Array<Record<string, any>>;
 }
 export const CustomerSchema = SchemaFactory.createForClass(Customer);

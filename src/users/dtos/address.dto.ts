@@ -17,6 +17,10 @@ export class CreateAddress {
   @IsString()
   @IsNotEmpty()
   readonly number: string;
+
+  @IsString()
+  @IsNotEmpty()
+  readonly title: string;
 }
 
 export class UpdateAddress extends PartialType(CreateAddress) {}

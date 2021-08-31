@@ -1,6 +1,13 @@
 import { PartialType } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  IsArray,
+  ValidateNested,
+} from 'class-validator';
 import { CreateAddress } from './address.dto';
-import { IsEmail, IsNotEmpty, IsString, ValidateNested } from 'class-validator';
 
 export class CreateCustomerDto {
   @IsString()
@@ -18,8 +25,10 @@ export class CreateCustomerDto {
   readonly email: string;
 
   @IsNotEmpty()
-  @ValidateNested()
-  readonly address: CreateAddress;
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CreateAddress)
+  readonly addresses: CreateAddress[];
 }
 
 export class UpdateCustomerDto extends PartialType(CreateCustomerDto) {}
