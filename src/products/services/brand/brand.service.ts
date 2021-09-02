@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -25,6 +29,13 @@ export class BrandService {
   }
 
   async create(data: CreateBrandDto) {
+    const brand = await this.brandModel.findOne({ name: data.name });
+    if (brand) {
+      throw new BadRequestException(
+        `Ya exista una marca con el nombre: ${data.name}`,
+      );
+    }
+
     const newBrand = new this.brandModel(data);
     return await newBrand.save();
   }
